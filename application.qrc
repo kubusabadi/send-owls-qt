@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>images/csv.png</file>
+        <file>images/register.png</file>
+        <file>images/owl.png</file>
+    </qresource>
+</RCC>

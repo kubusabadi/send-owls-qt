@@ -13,8 +13,18 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
 
+private slots:
+    void setEmailCredentials();
+    void importEmailsFromCSV();
+
 private:
+    void createMenuActions();
     void createMenus();
+
+    QMenu* fileMenu;
+    QToolBar* fileToolBar;
+    QAction* importCVS;
+    QAction* setCredentials;
 
 };
 
