@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(send_owls_qt)
 
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_PREFIX_PATH "C:/Qt/6.1.0/msvc2019_64/lib/cmake")
+set(CMAKE_PREFIX_PATH "C:/Qt/6.2.0/msvc2019_64/lib/cmake")
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -11,15 +11,33 @@ set(QT_VERSION 6)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
 
-add_executable(${PROJECT_NAME} main.cpp gui/mainWindow.h gui/mainWindow.cpp application.qrc)
+add_executable(${PROJECT_NAME} main.cpp
+        gui/mainWindow.h
+        gui/mainWindow.cpp
+        application.qrc
+        actions/SendOwls.cpp
+        actions/SendOwls.h
+        logic/AppParamsParser.cpp
+        logic/AppParamsParser.h
+        models/AppParamsParseResult.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
             "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
 endif ()
 
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_MULTITHREADED ON)
+
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+find_package(Boost COMPONENTS program_options REQUIRED)
+
+message(STATUS "Boost include dir: ${Boost_LIBRARY_DIRS}")
+
+include_directories(${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
+target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED} Boost::program_options)
 if (WIN32)
     set(DEBUG_SUFFIX)
     if (CMAKE_BUILD_TYPE MATCHES "Debug")

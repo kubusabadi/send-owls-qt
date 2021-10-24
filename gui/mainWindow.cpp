@@ -1,5 +1,5 @@
 //
-// Created by kubus on 26.07.2021.
+// Created by kubusabadi on 26.07.2021.
 //
 
 #include "mainWindow.h"
@@ -33,7 +33,7 @@ void MainWindow::createMenuActions()
     connect(importCVS, &QAction::triggered, this, &MainWindow::importEmailsFromCSV);
 
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/register.png"));
-    QAction *newAct = new QAction(newIcon, tr("&New"), this);
+    auto *newAct = new QAction(newIcon, tr("&New"), this);
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new file"));
     connect(newAct, &QAction::triggered, this, &MainWindow::importEmailsFromCSV);
